@@ -19,9 +19,55 @@ If you simply use AI to write your code, you miss out on understanding the codeb
 4. **Learning & Contribution:** You investigate, understand the bug, write the fix, and open your Pull Request[cite: 1]. 
 
 ## 🛠️ Tech Stack
-* **Frontend:** Next.js, Tailwind CSS
-* **Backend:** FastAPI, Python, PostgreSQL, Celery
-* **Integrations:** GitHub GraphQL API, LLM APIs
+* **Frontend:** Next.js (App Router), Tailwind CSS, NextAuth.js
+* **Backend:** FastAPI, Python, Pydantic, HTTPX
+* **Integrations:** GitHub REST & GraphQL APIs
 
 ## 💻 Local Setup
-*(Instructions coming soon)*
+
+### Prerequisites
+- Node.js (v18+)
+- Python (v3.9+)
+- A GitHub OAuth Application (to get your Client ID and Secret)
+
+### Frontend
+1. Navigate to the frontend directory:
+   ```bash
+   cd frontend
+   ```
+2. Install dependencies:
+   ```bash
+   npm install
+   ```
+3. Create a `.env.local` file and add your GitHub credentials and NextAuth URL:
+   ```env
+   GITHUB_ID=your_github_client_id
+   GITHUB_SECRET=your_github_client_secret
+   NEXTAUTH_URL=http://localhost:3000
+   NEXTAUTH_SECRET=your_random_secret_string
+   ```
+4. Start the Next.js development server:
+   ```bash
+   npm run dev
+   ```
+
+### Backend
+1. Navigate to the backend directory:
+   ```bash
+   cd backend
+   ```
+2. Create and activate a virtual environment:
+   ```bash
+   python -m venv .venv
+   source .venv/bin/activate  # On Windows use: .venv\Scripts\activate
+   ```
+3. Install dependencies:
+   ```bash
+   pip install -r requirements.txt
+   ```
+4. Start the FastAPI development server:
+   ```bash
+   uvicorn main:app --reload
+   ```
+
+Once both servers are running, visit `http://localhost:3000` to access the Open-Source Mentor platform!

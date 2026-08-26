@@ -10,12 +10,33 @@ export async function fetchUserProfile(token: string) {
 
   if (!response.ok) {
     if (response.status === 401) {
-      throw new Error("Unauthorized. Token may be expired.");
+      throw new Error("Your session has expired or is invalid. Please sign in again.");
     }
-    if (response.status === 403) {
-      throw new Error("Rate limit exceeded from GitHub API.");
+    if (response.status === 403 || response.status === 429) {
+      throw new Error("We've hit a GitHub API rate limit. Please try again later.");
     }
-    throw new Error("Failed to fetch user profile from the backend.");
+    throw new Error(`Failed to fetch user profile (Status: ${response.status}).`);
+  }
+
+  return response.json();
+}
+
+export async function fetchRecommendations(token: string) {
+  const response = await fetch(`${API_BASE_URL}/recommendations`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+      "Content-Type": "application/json",
+    },
+  });
+
+  if (!response.ok) {
+    if (response.status === 401) {
+      throw new Error("Your session has expired or is invalid. Please sign in again.");
+    }
+    if (response.status === 403 || response.status === 429) {
+      throw new Error("We've hit a GitHub API rate limit. Please try again later.");
+    }
+    throw new Error(`Failed to fetch recommendations (Status: ${response.status}).`);
   }
 
   return response.json();

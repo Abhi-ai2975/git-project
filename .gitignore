@@ -12,3 +12,4 @@ venv/
 # Environment Variables & OS Files
 .env
 .DS_Store
+.env.local

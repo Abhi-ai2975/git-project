@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from api import profile
+from api import profile, recommendations
 from dotenv import load_dotenv
 
 # Load environment variables (e.g. from .env file if it exists)
@@ -17,12 +17,13 @@ app.add_middleware(
     CORSMiddleware,
     allow_origins=["http://localhost:3000"],
     allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
+    allow_methods=["GET", "POST", "OPTIONS"],
+    allow_headers=["Authorization", "Content-Type"],
 )
 
 # Include API routers
 app.include_router(profile.router)
+app.include_router(recommendations.router)
 
 @app.get("/")
 def read_root():

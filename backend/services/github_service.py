@@ -4,11 +4,11 @@ from fastapi import HTTPException, status
 GITHUB_GRAPHQL_URL = "https://api.github.com/graphql"
 
 GRAPHQL_QUERY = """
-query {
+query($pinnedCount: Int!, $repoCount: Int!) {
   viewer {
     login
     name
-    pinnedItems(first: 6, types: REPOSITORY) {
+    pinnedItems(first: $pinnedCount, types: REPOSITORY) {
       nodes {
         ... on Repository {
           name
@@ -26,7 +26,7 @@ query {
         totalContributions
       }
     }
-    repositories(first: 100, orderBy: {field: PUSHED_AT, direction: DESC}) {
+    repositories(first: $repoCount, orderBy: {field: PUSHED_AT, direction: DESC}) {
       nodes {
         primaryLanguage {
           name
@@ -43,10 +43,19 @@ async def fetch_github_profile(token: str):
         "Content-Type": "application/json"
     }
     
-    async with httpx.AsyncClient() as client:
+    payload = {
+        "query": GRAPHQL_QUERY,
+        "variables": {
+            "pinnedCount": 6,
+            "repoCount": 100
+        }
+    }
+    
+    # Restrict connection and read timeouts to prevent backend thread exhaustion
+    async with httpx.AsyncClient(timeout=10.0) as client:
         response = await client.post(
             GITHUB_GRAPHQL_URL,
-            json={"query": GRAPHQL_QUERY},
+            json=payload,
             headers=headers
         )
         

@@ -1,4 +1,7 @@
-from fastapi import APIRouter, Depends, HTTPException, Header, status
+from fastapi import APIRouter, Depends, HTTPException, status
+from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
+from pydantic import BaseModel
+from typing import List, Optional
 from services.github_service import fetch_github_profile
 
 router = APIRouter(
@@ -6,28 +9,37 @@ router = APIRouter(
     tags=["profile"],
 )
 
-async def get_token(authorization: str = Header(None)):
-    if not authorization or not authorization.startswith("Bearer "):
-        raise HTTPException(
-            status_code=status.HTTP_401_UNAUTHORIZED,
-            detail="Missing or invalid Authorization header. Expected 'Bearer <token>'.",
-            headers={"WWW-Authenticate": "Bearer"},
-        )
-    return authorization.split("Bearer ")[1]
+security = HTTPBearer()
 
-@router.get("/")
-async def get_profile(token: str = Depends(get_token)):
+# Pydantic Response Models for structured validation
+class RepoSummary(BaseModel):
+    name: str
+    description: Optional[str]
+    url: str
+    stars: int
+    language: Optional[str]
+
+class UserProfileResponse(BaseModel):
+    username: str
+    name: Optional[str]
+    pinned_repositories: List[RepoSummary]
+    total_contributions: int
+    top_languages: List[str]
+
+@router.get("/", response_model=UserProfileResponse)
+async def get_profile(credentials: HTTPAuthorizationCredentials = Depends(security)):
     """
     Fetches the user's GitHub profile data using their provided OAuth Access Token.
-    Returns username, pinned repositories, top languages, and total contributions.
+    Returns structured data protected by strict schema validation.
     """
+    token = credentials.credentials
     try:
         profile_data = await fetch_github_profile(token)
-        return profile_data
+        return UserProfileResponse(**profile_data)
     except HTTPException as e:
         raise e
     except Exception as e:
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-            detail=f"An error occurred while fetching the GitHub profile: {str(e)}"
+            detail="An error occurred while fetching the GitHub profile"
         )

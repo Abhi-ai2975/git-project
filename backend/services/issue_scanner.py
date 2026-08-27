@@ -15,14 +15,14 @@ async def fetch_recommended_issues(token: str, primary_language: str, labels: Li
     }
 
     # Calculate date 60 days ago
-    sixty_days_ago = (datetime.utcnow() - timedelta(days=60)).strftime('%Y-%m-%d')
+    Ten_days_ago = (datetime.utcnow() - timedelta(days=10)).strftime('%Y-%m-%d')
 
     # GitHub Search doesn't easily support OR across multiple labels in a single query parameter safely without risking syntax errors,
     # so we'll prioritize the first (most significant) label from our mapped array.
     primary_label = labels[0] if labels else "help wanted"
 
     # Construct robust query: open issues, specific language, specific label, active repo
-    query = f'is:issue is:open language:"{primary_language}" label:"{primary_label}" archived:false updated:>={sixty_days_ago}'
+    query = f'is:issue is:open language:"{primary_language}" label:"{primary_label}" archived:false updated:>={Ten_days_ago}'
 
     params = {
         "q": query,

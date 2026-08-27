@@ -7,7 +7,7 @@ from dotenv import load_dotenv
 load_dotenv()
 
 app = FastAPI(
-    title="Open-Source Mentor Backend",
+    title="Git Project",
     description="Backend API for the Open-Source Mentor platform",
     version="1.0.0"
 )

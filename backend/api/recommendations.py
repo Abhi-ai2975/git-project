@@ -25,7 +25,7 @@ class RecommendationResponse(BaseModel):
     primary_language: str
     issues: List[IssueModel]
 
-@router.get("/", response_model=RecommendationResponse)
+@router.get("", response_model=RecommendationResponse)
 async def get_recommendations(credentials: HTTPAuthorizationCredentials = Depends(security)):
     """
     Assesses the user's skill level and returns recommended active open-source issues.

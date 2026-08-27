@@ -26,7 +26,7 @@ class UserProfileResponse(BaseModel):
     total_contributions: int
     top_languages: List[str]
 
-@router.get("/", response_model=UserProfileResponse)
+@router.get("", response_model=UserProfileResponse)
 async def get_profile(credentials: HTTPAuthorizationCredentials = Depends(security)):
     """
     Fetches the user's GitHub profile data using their provided OAuth Access Token.

@@ -4,6 +4,10 @@ from pydantic import BaseModel
 from typing import List, Optional
 from services.github_service import fetch_github_profile
 
+from sqlalchemy.orm import Session
+from database import get_db
+from models import User
+
 router = APIRouter(
     prefix="/api/profile",
     tags=["profile"],
@@ -25,9 +29,13 @@ class UserProfileResponse(BaseModel):
     pinned_repositories: List[RepoSummary]
     total_contributions: int
     top_languages: List[str]
+    is_onboarded: bool
 
 @router.get("", response_model=UserProfileResponse)
-async def get_profile(credentials: HTTPAuthorizationCredentials = Depends(security)):
+async def get_profile(
+    credentials: HTTPAuthorizationCredentials = Depends(security),
+    db: Session = Depends(get_db)
+):
     """
     Fetches the user's GitHub profile data using their provided OAuth Access Token.
     Returns structured data protected by strict schema validation.
@@ -35,6 +43,12 @@ async def get_profile(credentials: HTTPAuthorizationCredentials = Depends(securi
     token = credentials.credentials
     try:
         profile_data = await fetch_github_profile(token)
+        github_username = profile_data.get("username")
+        
+        user = db.query(User).filter(User.github_username == github_username).first()
+        is_onboarded = user.is_onboarded if user else False
+        
+        profile_data["is_onboarded"] = is_onboarded
         return UserProfileResponse(**profile_data)
     except HTTPException as e:
         raise e

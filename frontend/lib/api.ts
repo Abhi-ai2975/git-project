@@ -41,3 +41,23 @@ export async function fetchRecommendations(token: string) {
 
   return response.json();
 }
+
+export async function submitOnboarding(token: string, data: any) {
+  const response = await fetch(`${API_BASE_URL}/users/onboard`, {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${token}`,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(data),
+  });
+
+  if (!response.ok) {
+    if (response.status === 401) {
+      throw new Error("Your session has expired or is invalid. Please sign in again.");
+    }
+    throw new Error(`Failed to submit onboarding (Status: ${response.status}).`);
+  }
+
+  return response.json();
+}

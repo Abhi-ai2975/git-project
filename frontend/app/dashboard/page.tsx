@@ -3,11 +3,12 @@
 import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
 import { fetchUserProfile, fetchRecommendations } from "@/lib/api";
-import { redirect } from "next/navigation";
+import { redirect, useRouter } from "next/navigation";
 import { FolderGit2, Star, GitCommit, Code, AlertCircle, Target, ExternalLink } from "lucide-react";
 
 export default function DashboardPage() {
   const { data: session, status } = useSession();
+  const router = useRouter();
   const [profile, setProfile] = useState<any>(null);
   const [recommendations, setRecommendations] = useState<any>(null);
   const [loading, setLoading] = useState(true);
@@ -27,6 +28,10 @@ export default function DashboardPage() {
         fetchRecommendations(session.accessToken)
       ])
         .then(([profileData, recData]) => {
+          if (profileData.is_onboarded === false) {
+            router.push("/onboarding");
+            return;
+          }
           setProfile(profileData);
           setRecommendations(recData);
           setError(null);
@@ -38,7 +43,7 @@ export default function DashboardPage() {
           setLoading(false);
         });
     }
-  }, [status, session]);
+  }, [status, session, router]);
 
   if (status === "loading") {
     return (

@@ -1,7 +1,12 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from api import profile, recommendations
+from api import profile, recommendations, users
 from dotenv import load_dotenv
+import models
+from database import engine
+
+# Create the database tables
+models.Base.metadata.create_all(bind=engine)
 
 # Load environment variables (e.g. from .env file if it exists)
 load_dotenv()
@@ -24,6 +29,7 @@ app.add_middleware(
 # Include API routers
 app.include_router(profile.router)
 app.include_router(recommendations.router)
+app.include_router(users.router)
 
 @app.get("/")
 def read_root():

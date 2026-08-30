@@ -3,23 +3,52 @@
 import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
 import { fetchUserProfile, fetchRecommendations } from "@/lib/api";
-import { redirect, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { FolderGit2, Star, GitCommit, Code, AlertCircle, Target, ExternalLink } from "lucide-react";
+
+interface Repo {
+  url: string;
+  name: string;
+  description?: string;
+  language?: string;
+  stars: number;
+}
+
+interface Profile {
+  is_onboarded: boolean;
+  total_contributions: number;
+  top_languages: string[];
+  pinned_repositories: Repo[];
+}
+
+interface Issue {
+  url: string;
+  title: string;
+  repository: string;
+  labels: string[];
+}
+
+interface Recommendations {
+  primary_language: string;
+  skill_level: string;
+  issues: Issue[];
+}
 
 export default function DashboardPage() {
   const { data: session, status } = useSession();
   const router = useRouter();
-  const [profile, setProfile] = useState<any>(null);
-  const [recommendations, setRecommendations] = useState<any>(null);
+  const [profile, setProfile] = useState<Profile | null>(null);
+  const [recommendations, setRecommendations] = useState<Recommendations | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     if (status === "unauthenticated") {
-      redirect("/");
+      router.push("/");
     }
 
     if (status === "authenticated" && session?.accessToken) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setLoading(true);
       
       // Fetch both profile and recommendations in parallel
@@ -159,7 +188,7 @@ export default function DashboardPage() {
               
               {recommendations.issues.length > 0 ? (
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  {recommendations.issues.map((issue: any, i: number) => (
+                  {recommendations.issues.map((issue: Issue, i: number) => (
                     <a
                       key={i}
                       href={issue.url}
@@ -205,7 +234,7 @@ export default function DashboardPage() {
               
               {profile.pinned_repositories.length > 0 ? (
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                  {profile.pinned_repositories.map((repo: any, i: number) => (
+                  {profile.pinned_repositories.map((repo: Repo, i: number) => (
                     <a
                       key={i}
                       href={repo.url}

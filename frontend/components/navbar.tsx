@@ -15,6 +15,7 @@ export default function Navbar() {
 
   // Avoid hydration mismatch for theme toggle by only rendering icon after mount
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setMounted(true);
   }, []);
 
@@ -70,6 +71,7 @@ export default function Navbar() {
                   aria-expanded={dropdownOpen}
                   aria-haspopup="true"
                 >
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
                     src={session.user?.image || "https://github.com/identicons/jasonlong.png"}
                     alt={session.user?.name || "User Avatar"}
@@ -82,7 +84,7 @@ export default function Navbar() {
                 <div
                   className={`absolute right-0 mt-3 w-64 bg-white dark:bg-slate-900 rounded-xl shadow-[0_8px_30px_rgb(0,0,0,0.12)] dark:shadow-[0_8px_30px_rgb(0,0,0,0.4)] border border-slate-200 dark:border-slate-700 transform transition-all duration-200 origin-top-right z-50 ${
                     dropdownOpen
-                      ? "opacity-100 scale-100 pointer-events-auto translateY-0"
+                      ? "opacity-100 scale-100 pointer-events-auto translate-y-0"
                       : "opacity-0 scale-95 pointer-events-none -translate-y-2"
                   }`}
                 >

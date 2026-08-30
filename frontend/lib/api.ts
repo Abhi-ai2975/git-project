@@ -42,7 +42,7 @@ export async function fetchRecommendations(token: string) {
   return response.json();
 }
 
-export async function submitOnboarding(token: string, data: any) {
+export async function submitOnboarding(token: string, data: { linkedin_url: string; portfolio_url: string }) {
   const response = await fetch(`${API_BASE_URL}/users/onboard`, {
     method: "POST",
     headers: {

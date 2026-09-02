@@ -2,7 +2,7 @@
 
 import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
-import { redirect, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { submitOnboarding } from "@/lib/api";
 
 export default function OnboardingPage() {
@@ -18,9 +18,9 @@ export default function OnboardingPage() {
 
   useEffect(() => {
     if (status === "unauthenticated") {
-      redirect("/");
+      router.push("/");
     }
-  }, [status]);
+  }, [status, router]);
 
   if (status === "loading") {
     return (
@@ -43,8 +43,8 @@ export default function OnboardingPage() {
     try {
       await submitOnboarding(session.accessToken, formData);
       router.push("/dashboard");
-    } catch (err: any) {
-      setError(err.message || "Failed to submit onboarding.");
+    } catch (err: unknown) {
+      setError(err instanceof Error ? err.message : "Failed to submit onboarding.");
     } finally {
       setLoading(false);
     }

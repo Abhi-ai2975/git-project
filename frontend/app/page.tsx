@@ -15,7 +15,6 @@ function ContributionGraph() {
           if (score > 40) color = "bg-emerald-900/40";
           if (score > 65) color = "bg-emerald-700/40";
           if (score > 85) color = "bg-emerald-500/40";
-          
           return (
             <div key={i} className={`w-3 h-3 rounded-sm ${color}`} />
           );
@@ -32,7 +31,6 @@ export default function Home() {
     <div className="relative min-h-screen flex flex-col pt-32 sm:pt-40 overflow-hidden text-slate-50 selection:bg-cyan-500/30">
       {/* Git Commit Background */}
       <ContributionGraph />
-      
       {/* Background Glow */}
       <div className="absolute inset-0 z-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-blue-900/10 via-slate-950/90 to-slate-950"></div>
       <div className="absolute left-1/2 top-1/2 z-0 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[600px] bg-cyan-900/10 blur-[120px] rounded-full pointer-events-none"></div>
@@ -54,7 +52,6 @@ export default function Home() {
 
       <div className="relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-20 lg:pb-32">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-12 items-center">
-          
           {/* Left Column */}
           <div className="flex flex-col items-start text-left max-w-2xl">
             <div className="inline-flex items-center gap-2 rounded-full border border-cyan-500/30 bg-cyan-500/10 px-4 py-1.5 text-sm font-medium text-cyan-300 shadow-[0_0_15px_rgba(6,182,212,0.2)] mb-8">
@@ -64,18 +61,18 @@ export default function Home() {
               </span>
               OPEN SOURCE, REAL IMPACT
             </div>
-            
+
             <h1 className="text-5xl sm:text-6xl lg:text-7xl font-extrabold tracking-tight mb-6 leading-[1.1]">
-              Stop Prompting.<br/>
+              Stop Prompting.<br />
               Start <span className="bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent">Building.</span>
             </h1>
-            
+
             <p className="text-lg sm:text-xl text-slate-400 mb-10 leading-relaxed max-w-xl">
               You know the theory. Now write the code. Transition from AI-prompting to hands-on development by fixing real, curated open-source issues.
             </p>
-            
+
             <div className="flex flex-col sm:flex-row gap-4 w-full sm:w-auto mb-16">
-              <button 
+              <button
                 onClick={() => signIn('github', { callbackUrl: '/dashboard' })}
                 className="group relative inline-flex items-center justify-center gap-3 rounded-xl bg-white px-8 py-4 text-sm font-semibold text-slate-900 transition-all hover:bg-slate-200 hover:scale-[1.02] active:scale-95 shadow-[0_0_30px_rgba(255,255,255,0.1)]"
               >
@@ -83,13 +80,13 @@ export default function Home() {
                 <span>Continue with GitHub</span>
                 <div className="absolute inset-0 rounded-xl ring-1 ring-inset ring-black/10 pointer-events-none"></div>
               </button>
-              
+
               <button className="inline-flex items-center justify-center gap-2 rounded-xl bg-slate-800/50 backdrop-blur-sm border border-slate-700 px-8 py-4 text-sm font-semibold text-white transition-all hover:bg-slate-800 hover:border-slate-600 group">
                 <Play className="w-4 h-4 fill-white text-white group-hover:scale-110 transition-transform" />
                 <span>See How It Works</span>
               </button>
             </div>
-            
+
             {/* Features Row */}
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 pt-8 border-t border-slate-800/50 w-full">
               <div className="flex flex-col gap-2">
@@ -112,12 +109,12 @@ export default function Home() {
               </div>
             </div>
           </div>
-          
+
           {/* Right Column - Visual Showcase */}
           <div className="relative w-full max-w-lg mx-auto lg:mx-0 lg:ml-auto">
             {/* Ambient glow behind editor */}
             <div className="absolute inset-0 bg-gradient-to-tr from-cyan-500/20 to-blue-500/20 blur-[80px] rounded-full"></div>
-            
+
             {/* Editor Window */}
             <div className="relative animate-float bg-gray-900/80 backdrop-blur-xl rounded-xl ring-1 ring-white/10 shadow-2xl overflow-hidden">
               {/* Window Header */}
@@ -127,7 +124,7 @@ export default function Home() {
                 <div className="w-3 h-3 rounded-full bg-green-500/80"></div>
                 <div className="ml-2 text-xs font-medium text-slate-500">src/components/hero.tsx</div>
               </div>
-              
+
               {/* Code Area */}
               <div className="p-4 sm:p-6 font-mono text-sm sm:text-base text-slate-300 overflow-x-auto">
                 <div className="flex">
@@ -140,9 +137,9 @@ export default function Home() {
                 </div>
                 <div className="flex">
                   <span className="w-8 shrink-0 text-slate-600 select-none">3</span>
-                  <span className="pl-8">&lt;div className="hero"&gt;</span>
+                  <span className="pl-8">&lt;div className=&quot;hero&quot;&gt;</span>
                 </div>
-                
+
                 {/* Diff lines */}
                 <div className="flex bg-red-500/10 -mx-4 sm:-mx-6 px-4 sm:px-6 py-1 my-1">
                   <span className="w-8 shrink-0 text-red-500 select-none">-</span>
@@ -150,11 +147,11 @@ export default function Home() {
                 </div>
                 <div className="flex bg-green-500/10 -mx-4 sm:-mx-6 px-4 sm:px-6 py-1 my-1 relative">
                   <span className="w-8 shrink-0 text-green-500 select-none">+</span>
-                  <span className="pl-12 text-green-400 font-medium">&lt;h1 className="text-cyan-400"&gt;Start Building&lt;/h1&gt;</span>
+                  <span className="pl-12 text-green-400 font-medium">&lt;h1 className=&quot;text-cyan-400&quot;&gt;Start Building&lt;/h1&gt;</span>
                   {/* Subtle glow on added line */}
                   <div className="absolute inset-0 bg-green-400/5 blur-md"></div>
                 </div>
-                
+
                 <div className="flex">
                   <span className="w-8 shrink-0 text-slate-600 select-none">6</span>
                   <span className="pl-8">&lt;/div&gt;</span>
@@ -169,7 +166,7 @@ export default function Home() {
                 </div>
               </div>
             </div>
-            
+
             {/* Floating Toast Notification */}
             <div className="absolute -bottom-6 -right-2 sm:-right-8 animate-float-delayed bg-gray-800 backdrop-blur-md ring-1 ring-white/10 rounded-lg p-4 shadow-2xl flex items-center gap-3 z-20">
               <div className="flex items-center justify-center w-8 h-8 rounded-full bg-green-500/20">
@@ -181,7 +178,7 @@ export default function Home() {
               </div>
             </div>
           </div>
-          
+
         </div>
       </div>
     </div>

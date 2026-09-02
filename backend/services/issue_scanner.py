@@ -14,7 +14,7 @@ async def fetch_recommended_issues(token: str, primary_language: str, labels: Li
         "Accept": "application/vnd.github.v3+json"
     }
 
-    # Calculate date 60 days ago
+    # Calculate date 10 days ago
     Ten_days_ago = (datetime.utcnow() - timedelta(days=10)).strftime('%Y-%m-%d')
 
     # GitHub Search doesn't easily support OR across multiple labels in a single query parameter safely without risking syntax errors,

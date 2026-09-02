@@ -25,11 +25,42 @@ query($pinnedCount: Int!, $repoCount: Int!) {
       contributionCalendar {
         totalContributions
       }
+      commitContributionsByRepository(maxRepositories: 100) {
+        repository {
+          name
+          stargazerCount
+          owner {
+            login
+          }
+        }
+        contributions {
+          totalCount
+        }
+      }
     }
     repositories(first: $repoCount, orderBy: {field: PUSHED_AT, direction: DESC}) {
       nodes {
         primaryLanguage {
           name
+        }
+      }
+    }
+    pullRequests(first: 100, states: MERGED, orderBy: {field: CREATED_AT, direction: DESC}) {
+      nodes {
+        repository {
+          name
+          stargazerCount
+          owner {
+            login
+          }
+        }
+        closingIssuesReferences(first: 10) {
+          totalCount
+        }
+        files(first: 100) {
+          nodes {
+            path
+          }
         }
       }
     }
@@ -113,5 +144,7 @@ async def fetch_github_profile(token: str):
                 if repo
             ],
             "total_contributions": viewer.get("contributionsCollection", {}).get("contributionCalendar", {}).get("totalContributions", 0),
-            "top_languages": top_languages
+            "top_languages": top_languages,
+            "commit_contributions": viewer.get("contributionsCollection", {}).get("commitContributionsByRepository", []),
+            "pull_requests": viewer.get("pullRequests", {}).get("nodes", [])
         }

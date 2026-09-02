@@ -35,15 +35,12 @@ async def get_recommendations(credentials: HTTPAuthorizationCredentials = Depend
         # 1. Fetch user's basic profile metrics
         profile_data = await fetch_github_profile(token)
         
-        total_contributions = profile_data.get("total_contributions", 0)
-        top_languages = profile_data.get("top_languages", [])
-        
         # 2. Assess skill level and determine query parameters
-        assessment = assess_skill_level(total_contributions, top_languages)
+        assessment = assess_skill_level(profile_data)
         
-        primary_language = assessment["primary_language"]
-        skill_level = assessment["level"]
-        target_labels = assessment["labels"]
+        primary_language = assessment.primary_language
+        skill_level = assessment.level
+        target_labels = assessment.labels
         
         # 3. Query the GitHub Search API for active open-source issues
         issues_data = await fetch_recommended_issues(token, primary_language, target_labels)

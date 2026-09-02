@@ -5,7 +5,6 @@ import Link from "next/link";
 import { useSession, signIn, signOut } from "next-auth/react";
 import { useTheme } from "next-themes";
 import { Sun, Moon, LayoutDashboard, LogOut } from "lucide-react";
-
 export default function Navbar() {
   const { data: session, status } = useSession();
   const { theme, setTheme } = useTheme();

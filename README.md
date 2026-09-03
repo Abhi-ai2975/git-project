@@ -1,5 +1,5 @@
 # git-project
-# 🚀 Open-Source Mentor
+# 🚀 AI Open-Source Mentor
 
 ## ⚠️ The Problem
 Navigating large repositories and finding beginner-friendly tasks is overwhelming for almost every student starting out[cite: 1]. When trying to build a consistent GitHub presence, new developers face major roadblocks:
